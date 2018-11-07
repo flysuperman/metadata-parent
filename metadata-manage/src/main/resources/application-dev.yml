@@ -1,0 +1,69 @@
+#端口
+server:
+  port: 8080
+
+#配置mysql
+spring:
+  datasource:
+    #数据库设置
+    url: jdbc:mysql://172.20.46.127:3306/wg_db?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: test
+    password: 111111
+    driverClassName: com.mysql.jdbc.Driver
+    #连接池的补充设置，应用到上面所有数据源中
+    #初始化大小，最小，最大
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties.druid.stat.mergeSql: true;
+    connectionProperties.druid.stat.slowSqlMillis: 5000
+
+#Mybatis
+mybatis:
+#  mybatis主配置所在位置
+   config-location: classpath:mybatis/mybatis-config.xml
+   #配置扫描mapper.xml路径
+   mapper-locations: classpath:mybatis/mapper/*.xml
+  #定义别名,对整个包进行扫描,定义的别名首字母可以大写也可小写比如UserInfo或者userInfo
+   type-aliases-package: com.sailing.bdip.metadata
+pagehelper:
+    #分页方言
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql
+
+# Generator
+generator.targetProject: src/main/java
+generator.mappers: com.sailing.bdip.metadata.common.mybatis.IBaseMapper
+generator.javaModel-targetPackage: com.sailing.bdip.metadata.autocreate.entity
+generator.javaClient-targetPackage: com.sailing.bdip.metadata.autocreate.mapper
+generator.targetMappProject: src/main/resources
+generator.sqlMap-targetPackage: mybatis.mapper
+
+#日志配置
+#logging.level.com.xiaolyuh: debug
+#logging.level.org.springframework.web: debug
+#logging.level.org.springframework.transaction: debug
+#logging.level.org.mybatis: debug
+
+ #配置全局时间格式处理方式
+jackson:
+  date-format: yyyy-MM-dd HH:mm:ss
+  time-zone: GMT+8  #spring会将时间自动给转成UTC字符串了,

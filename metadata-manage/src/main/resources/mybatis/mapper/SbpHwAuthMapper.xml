@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sailing.bdip.metadata.hwauth.mapper.SbpHwAuthMapper">
+  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.hwauth.entity.SbpHwAuth">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="AUTH_ID" jdbcType="VARCHAR" property="authId" />
+    <result column="AUTH_NAME" jdbcType="VARCHAR" property="authName" />
+    <result column="AUTH_CODE" jdbcType="VARCHAR" property="authCode" />
+    <result column="AUTH_USER" jdbcType="VARCHAR" property="authUser" />
+    <result column="OPERATE_PERSON" jdbcType="VARCHAR" property="operatePerson" />
+    <result column="OPERATE_TIME" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="AUTH_DESC" jdbcType="LONGVARCHAR" property="authDesc" />
+  </resultMap>
+</mapper>

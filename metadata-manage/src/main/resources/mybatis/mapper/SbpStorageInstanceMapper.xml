@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sailing.bdip.metadata.manage.mapper.SbpStorageInstanceMapper">
+  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.manage.entity.SbpStorageInstance">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="SI_ID" jdbcType="VARCHAR" property="siId" />
+    <result column="DS_CODE" jdbcType="VARCHAR" property="dsCode" />
+    <result column="SI_ALIAS" jdbcType="VARCHAR" property="siAlias" />
+    <result column="DS_NAME" jdbcType="VARCHAR" property="dsName" />
+    <result column="ST_CODE" jdbcType="VARCHAR" property="stCode" />
+    <result column="DRIVER_CLASS" jdbcType="VARCHAR" property="driverClass" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="PASS_WORD" jdbcType="VARCHAR" property="passWord" />
+    <result column="CHAR_ENCODE" jdbcType="VARCHAR" property="charEncode" />
+    <result column="AUTH_CODE" jdbcType="VARCHAR" property="authCode" />
+    <result column="CONN_STATUS" jdbcType="CHAR" property="connStatus" />
+    <result column="SOURCE_TYPE" jdbcType="CHAR" property="sourceType" />
+    <result column="MANAGER" jdbcType="VARCHAR" property="manager" />
+    <result column="MANAGE_DEPT" jdbcType="VARCHAR" property="manageDept" />
+    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MOD_PERSON" jdbcType="VARCHAR" property="modPerson" />
+    <result column="MOD_TIME" jdbcType="TIMESTAMP" property="modTime" />
+    <result column="URL" jdbcType="LONGVARCHAR" property="url" />
+    <result column="URN" jdbcType="LONGVARCHAR" property="urn" />
+    <result column="REMARK" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+
+  <select id="findInstancePage" parameterType="sbpStorageInstance" resultMap="BaseResultMap">
+    <![CDATA[
+      select * from sbp_storage_instance
+    ]]>
+    where ST_CODE=#{stCode}
+    <if test="dictName!=null and dictName!=''">
+      and DS_NAME like CONCAT('%',#{dsName},'%')
+    </if>
+    order by MOD_TIME DESC
+  </select>
+
+</mapper>

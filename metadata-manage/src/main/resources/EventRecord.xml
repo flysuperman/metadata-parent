@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.psmp_mobile.mapper.dispute.EventRecordMapper" >
+	<resultMap id="BaseResultMap" type="com.psmp.model.dispute.EventRecord" >
+    <id column="EVENT_RECORD_ID" property="eventRecordId" jdbcType="INTEGER" />
+    <result column="T_AREA_ID" property="areaId" jdbcType="INTEGER" />
+    <result column="EVENT_NAME" property="eventName" jdbcType="VARCHAR" />
+    <result column="EVENT_DATE" property="eventDate" jdbcType="DATE" />
+    <result column="LOCATION" property="location" jdbcType="VARCHAR" />
+    <result column="SCOPE" property="scope" jdbcType="VARCHAR" />
+    <result column="EVENT_TYPE" property="eventType" jdbcType="VARCHAR" />
+    <result column="INVOLVED_NUMBER" property="involvedNumber" jdbcType="INTEGER" />
+    <result column="DESCRIBTION" property="describtion" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="MAIN_CODE" property="mainCode" jdbcType="VARCHAR" />
+    <result column="MAIN_NUMBER" property="mainNumber" jdbcType="VARCHAR" />
+    <result column="MAIN_NAME" property="mainName" jdbcType="VARCHAR" />
+    <result column="MAIN_SEX" property="mainSex" jdbcType="VARCHAR" />
+    <result column="NATIONALITY" property="nationality" jdbcType="VARCHAR" />
+    <result column="DEGREES" property="degrees" jdbcType="VARCHAR" />
+    <result column="MAIN_TYPE" property="mainType" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="RESOLVE_DATE" property="resolveDate" jdbcType="DATE" />
+    <result column="T_USERINFO_ID" property="userinfoId" jdbcType="INTEGER" />
+    <result column="RECORD_DATE" property="recordDate" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="MAP_ID" property="mapId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+    <result column="eventDateStr" property="eventDateStr" jdbcType="VARCHAR" />
+    <result column="areaText" property="areaText" jdbcType="VARCHAR" />
+    <result column="eventStatusText" property="eventStatusText" jdbcType="VARCHAR" />
+    <result column="scopeText" property="scopeText" jdbcType="VARCHAR" />
+    <result column="eventTypeText" property="eventTypeText" jdbcType="VARCHAR" />
+    <result column="resolveDateStr" property="resolveDateStr" jdbcType="VARCHAR" />
+    <result column="recordDateStr" property="recordDateStr" jdbcType="VARCHAR" />
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="realname" property="realName" jdbcType="VARCHAR" />
+    <result column="assignDateStr" property="assignDateStr" jdbcType="VARCHAR" />
+    <result column="sloveDateStr" property="sloveDateStr" jdbcType="VARCHAR" />
+    <result column="wayText" property="wayText" jdbcType="VARCHAR" />
+    <result column="handle_user" property="handleUser" jdbcType="VARCHAR" />
+    <result column="is_success" property="isSuccess" jdbcType="VARCHAR" />
+
+    <result column="mainCodeText" property="mainCodeText" jdbcType="VARCHAR" />
+    <result column="sexTypeText" property="sexTypeText" jdbcType="VARCHAR" />
+    <result column="nationalityText" property="nationalityText" jdbcType="VARCHAR" />
+    <result column="degreesText" property="degreesText" jdbcType="VARCHAR" />
+    <result column="mainTypeText" property="mainTypeText" jdbcType="VARCHAR" />
+
+  </resultMap>
+
+
+	<!---查询已登记的信息分页-->
+	<select id="findByEvnetRecordPage" parameterType="Map" resultMap="BaseResultMap">
+		<![CDATA[
+			 SELECT * FROM
+			(
+			SELECT A.*, ROWNUM RN
+			FROM (
+			SELECT
+			EVENT_RECORD_ID,
+			EVENT_NAME,
+			t_userinfo_id,
+			INVOLVED_NUMBER,
+			to_char(t.event_date,'YYYY-MM-DD') AS eventDateStr,
+			a.abbrname as areaText,
+			d.itemvalue as scopeText,
+			d1.itemvalue as eventTypeText
+			FROM T_EVENT_RECORD t
+			left join t_dict d
+			on d.itemkey = t.scope and d.itemname = 'EVENTSCOPE' and d.isvalid = 1
+			left join t_dict d1
+			on d1.itemkey =  t.event_type  and d1.itemname = 'EVENTTYPE' and d1.isvalid = 1
+			left join t_area a
+			on a.area_id = t.t_area_id
+			where 1=1
+			and t.status =  '01'
+			and t.t_userinfo_id = #{userInfoId}
+		 ]]>
+		<if test="areaId!=0">
+			AND T.T_AREA_ID = #{areaId}
+		</if>
+		<if test="scope!=null and scope!=''">
+			and t.scope =  #{scope}
+		</if>
+		<if test="eventType!=null and eventType!=''">
+			and t.event_type = #{eventType}
+		</if>
+		<if test="eventName!=null and eventName!=''">
+			and t.EVENT_NAME like '%'||#{eventName}||'%'
+		</if>
+		<![CDATA[
+    order by t.create_time desc
+    ) A
+    WHERE ROWNUM <= #{pageSize}
+    )
+    WHERE RN >= #{pageIndex}
+    ]]>
+	</select>
+
+
+	<!---分页总条数-->
+	<select id="getByEvnetRecordPageCount" parameterType="Map" resultType="int">
+		SELECT
+		count(1)
+		FROM T_EVENT_RECORD t
+		left join t_dict d
+		on d.itemkey = t.scope and d.itemname = 'EVENTSCOPE' and d.isvalid = 1
+		left join t_dict d1
+		on d1.itemkey =  t.event_type  and d1.itemname = 'EVENTTYPE' and d1.isvalid = 1
+		left join t_area a
+		on a.area_id = t.t_area_id
+		where 1=1
+		and t.status =  '01'
+		and t.t_userinfo_id = #{userInfoId}
+		<if test="areaId!=0">
+			AND T.T_AREA_ID = #{areaId}
+		</if>
+		<if test="scope!=null and scope!=''">
+			and t.scope =  #{scope}
+		</if>
+		<if test="eventType!=null and eventType!=''">
+			and t.event_type = #{eventType}
+		</if>
+		<if test="eventName!=null and eventName!=''">
+			and t.EVENT_NAME like '%'||#{eventName}||'%'
+		</if>
+	</select>
+
+
+	<!--新增信息-->
+	<insert id="saveEvent" parameterType="com.psmp_mobile.model.dispute.EventRecord" >
+
+		<selectKey keyProperty="eventRecordId" resultType="int" order="BEFORE">
+			select seq_event_record.nextval from dual
+		</selectKey>
+
+		insert into T_EVENT_RECORD (
+		EVENT_RECORD_ID,
+		T_AREA_ID,
+		EVENT_NAME,
+		EVENT_DATE,
+		LOCATION,
+		SCOPE,
+		EVENT_TYPE,
+		INVOLVED_NUMBER,
+		DESCRIBTION,
+		UNIT,
+		MAIN_CODE,
+		MAIN_NUMBER,
+		MAIN_NAME,
+		MAIN_SEX,
+		NATIONALITY,
+		DEGREES,
+		MAIN_TYPE,
+		ADDRESS,
+		RESOLVE_DATE,
+		T_USERINFO_ID,
+		RECORD_DATE,
+		STATUS,
+		MAP_ID,
+		CREATE_TIME,
+		UPDATE_TIME)
+		values (
+		#{eventRecordId},
+		#{areaId,jdbcType=INTEGER},
+		#{eventName,jdbcType=VARCHAR},
+		to_date(#{eventDateStr,jdbcType=VARCHAR},'YYYY-MM-DD hh24:mi:ss'),
+		#{location,jdbcType=VARCHAR},
+		#{scope,jdbcType=VARCHAR},
+		#{eventType,jdbcType=VARCHAR},
+		#{involvedNumber,jdbcType=INTEGER},
+		#{describtion,jdbcType=VARCHAR},
+		' ',
+		' ',
+		' ',
+		' ',
+		' ',
+		' ',
+		' ',
+		' ',
+		' ',
+		sysdate,
+		#{userinfoId,jdbcType=INTEGER},
+		sysdate,
+		'01',
+		' ',
+		sysdate,
+		sysdate
+		)
+	</insert>
+
+
+	<!--修改事件信息-->
+	<update id="upddteEvent" parameterType="com.psmp_mobile.model.dispute.EventRecord" >
+		update T_EVENT_RECORD
+		set T_AREA_ID = #{areaId,jdbcType=INTEGER},
+		EVENT_NAME = #{eventName,jdbcType=VARCHAR},
+		EVENT_DATE = to_date(#{eventDateStr},'YYYY-MM-DD hh24:mi:ss'),
+		LOCATION = #{location,jdbcType=VARCHAR},
+		SCOPE = #{scope,jdbcType=VARCHAR},
+		EVENT_TYPE = #{eventType,jdbcType=VARCHAR},
+		INVOLVED_NUMBER = #{involvedNumber,jdbcType=INTEGER},
+		DESCRIBTION = #{describtion,jdbcType=VARCHAR},
+		UPDATE_TIME = sysdate
+		where 1=1 AND EVENT_RECORD_ID = #{eventRecordId,jdbcType=INTEGER}
+	</update>
+
+
+	<!--修改事件状态-->
+	<update id="updateStatus" parameterType="Map">
+		update t_event_record set status = #{status}
+		where 1=1
+		and EVENT_RECORD_ID = #{eventRecordId}
+	</update>
+
+	<!--指派列表查询-->
+	<select id="findByEvnetAssignPage" parameterType="Map" resultMap="BaseResultMap">
+		<![CDATA[
+		SELECT * FROM
+		(
+		SELECT A.*, ROWNUM RN
+		FROM (
+		select
+		r.EVENT_RECORD_ID,
+		r.EVENT_NAME,
+		r.INVOLVED_NUMBER,
+		t.t_userinfo_id,
+		to_char(r.event_date,'YYYY-MM-DD') AS eventDateStr,
+		a.abbrname as areaText,
+		d.itemvalue as scopeText,
+		d1.itemvalue as eventTypeText
+		from t_event_assign t
+		left join t_event_record r
+		on t.t_event_record_id =  r.event_record_id
+		left join t_dict d
+		on d.itemkey = r.scope and d.itemname = 'EVENTSCOPE' and d.isvalid = 1
+		left join t_dict d1
+		on d1.itemkey =  r.event_type  and d1.itemname = 'EVENTTYPE' and d1.isvalid = 1
+		left join t_area a
+		on a.area_id = r.t_area_id
+		where r.status = '02'
+		and t.t_userinfo_id = #{userInfoId}
+		]]>
+		<if test="areaId!=0">
+		AND r.T_AREA_ID = #{areaId}
+		</if>
+		<if test="scope!=null and scope!=''">
+		and r.scope =  #{scope}
+		</if>
+		<if test="eventType!=null and eventType!=''">
+		and r.event_type = #{eventType}
+		</if>
+		<if test="eventName!=null and eventName!=''">
+		and r.EVENT_NAME like '%'||#{eventName}||'%'
+		</if>
+		<![CDATA[
+		order by t.create_time desc
+		) A
+		WHERE ROWNUM <= #{pageSize}
+		)
+		WHERE RN >= #{pageIndex}
+		]]>
+	</select>
+
+	<!--指派列表查询条条数-->
+	<select id="getByEvnetAssignPageCount" parameterType="Map" resultType="int">
+		select
+		count(1)
+		from t_event_assign t
+		left join t_event_record r
+		on t.t_event_record_id =  r.event_record_id
+		left join t_dict d
+		on d.itemkey = r.scope and d.itemname = 'EVENTSCOPE' and d.isvalid = 1
+		left join t_dict d1
+		on d1.itemkey =  r.event_type  and d1.itemname = 'EVENTTYPE' and d1.isvalid = 1
+		left join t_area a
+		on a.area_id = r.t_area_id
+		where r.status = '02'
+		and t.t_userinfo_id = #{userInfoId}
+		<if test="areaId!=0">
+			AND r.T_AREA_ID = #{areaId}
+		</if>
+		<if test="scope!=null and scope!=''">
+			and r.scope =  #{scope}
+		</if>
+		<if test="eventType!=null and eventType!=''">
+			and r.event_type = #{eventType}
+		</if>
+		<if test="eventName!=null and eventName!=''">
+			and r.EVENT_NAME like '%'||#{eventName}||'%'
+		</if>
+	</select>
+
+
+	<select id="findById" parameterType="int" resultMap="BaseResultMap">
+		select
+		t.event_record_id,
+		t.T_AREA_ID,
+		t.event_name,
+		to_char(t.event_date,'yyyy-mm-dd hh24:mi:ss') as eventDateStr,
+		t.location,
+		t.scope,
+		t.event_type,
+		t.involved_number,
+		t.describtion,
+		t.STATUS
+		from  t_event_record t
+		where 1=1 and t.event_record_id = #{eventRecordId}
+	</select>
+	<select id="findByEventRecordPage" parameterType="Map" resultMap="BaseResultMap">
+    <![CDATA[
+     SELECT * FROM
+    (
+    SELECT A.*, ROWNUM RN
+    FROM (
+    SELECT
+    EVENT_RECORD_ID,
+    EVENT_RECORD_ID AS  id,
+    t.T_AREA_ID,
+    EVENT_NAME,
+    to_char(t.event_date,'YYYY-MM-DD') AS eventDateStr,
+    to_char(t.record_date,'YYYY-MM-DD') AS recordDateStr,
+    LOCATION,
+    SCOPE,
+    EVENT_TYPE,
+    INVOLVED_NUMBER,
+    DESCRIBTION,
+    UNIT,
+    MAP_ID,
+    MAIN_CODE,
+    MAIN_NUMBER,
+    MAIN_NAME, MAIN_SEX,
+    NATIONALITY,
+    DEGREES,
+    MAIN_TYPE,
+    t.ADDRESS,
+    RESOLVE_DATE,
+    T_USERINFO_ID,
+    RECORD_DATE,
+    STATUS,
+    a.PARENTNAME as areaText,
+    d.itemvalue as scopeText,
+    d1.itemvalue as eventTypeText,
+    d2.itemvalue as eventStatusText,
+    u.realname
+    FROM T_EVENT_RECORD t
+    left join t_dict d
+    on d.itemkey = t.scope and d.itemname = 'EVENTSCOPE' and d.isvalid = 1
+    left join t_dict d1
+    on d1.itemkey =  t.event_type  and d1.itemname = 'EVENTTYPE' and d1.isvalid = 1
+    left join t_dict d2
+    on d2.itemkey =  t.status  and d2.itemname = 'EVENTSTATUS'  and d2.isvalid = 1
+    left join t_area a
+    on a.area_id = t.t_area_id
+    left join t_userinfo u
+    on u.userinfo_id =  t.t_userinfo_id  and u.validaflag = 1
+    where 1=1
+     ]]>
+    <if test="areaId!=null">
+    AND T.T_AREA_ID in ${areaId,jdbcType=INTEGER}
+    </if>
+     <if test="scope!=null and scope!=''">
+      and t.scope =  #{scope,jdbcType=VARCHAR}
+    </if>
+    <if test="eventType!=null and eventType!=''">
+      and t.event_type = #{eventType,jdbcType=VARCHAR}
+    </if>
+    <if test="eventName!=null and eventName!=''">
+      and t.EVENT_NAME like '%'||#{eventName,jdbcType=VARCHAR}||'%'
+    </if>
+
+    <if test="status!=null and status!=''">
+      and t.status =#{status,jdbcType=VARCHAR}
+    </if>
+
+    <![CDATA[
+    order by t.create_time desc
+    ) A
+    WHERE ROWNUM <= #{pageSize,jdbcType=INTEGER}
+    )
+    WHERE RN >= #{pageIndex,jdbcType=INTEGER}
+    ]]>
+  </select>
+
+  <select id="getByEventRecordPageCount" parameterType="Map" resultType="int">
+      SELECT
+      count(1)
+      FROM T_EVENT_RECORD t
+      left join t_dict d
+      on d.itemkey = t.scope and d.itemname = 'EVENTSCOPE' and d.isvalid = 1
+      left join t_dict d1
+      on d1.itemkey =  t.event_type  and d1.itemname = 'EVENTTYPE' and d1.isvalid = 1
+      left join t_dict d2
+      on d2.itemkey =  t.status  and d2.itemname = 'EVENTSTATUS'  and d2.isvalid = 1
+      left join t_area a
+      on a.area_id = t.t_area_id
+      left join t_userinfo u
+      on u.userinfo_id =  t.t_userinfo_id  and u.validaflag = 1
+      where 1=1
+      <if test="areaId!=null">
+        AND T.T_AREA_ID in ${areaId,jdbcType=INTEGER}
+      </if>
+      <if test="scope!=null and scope!=''">
+        and t.scope =  #{scope,jdbcType=VARCHAR}
+      </if>
+      <if test="eventType!=null and eventType!=''">
+        and t.event_type = #{eventType,jdbcType=VARCHAR}
+      </if>
+      <if test="eventName!=null and eventName!=''">
+      and t.EVENT_NAME like '%'||#{eventName,jdbcType=VARCHAR}||'%'
+      </if>
+      <if test="status!=null and status!=''">
+        and t.status =#{status,jdbcType=VARCHAR}
+      </if>
+
+  </select>
+</mapper>

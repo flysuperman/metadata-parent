@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sailing.bdip.metadata.sequence.mapper.SbpConfSeqMapper">
+  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.sequence.entity.SbpConfSeq">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="SEQ_TYPE" jdbcType="VARCHAR" property="seqType" />
+    <result column="NUM" jdbcType="BIGINT" property="num" />
+  </resultMap>
+</mapper>

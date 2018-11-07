@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sailing.bdip.metadata.confmanage.mapper.SbpEnumMapper">
+  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.confmanage.entity.SbpEnum">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ENUM_ID" jdbcType="VARCHAR" property="enumId" />
+    <result column="OPERATE_PERSON" jdbcType="VARCHAR" property="operatePerson" />
+    <result column="OPERATE_TIME" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="LEAF" jdbcType="CHAR" property="leaf" />
+    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="IS_SYSTEM" jdbcType="CHAR" property="isSystem" />
+    <result column="ENUM_SEQ" jdbcType="INTEGER" property="enumSeq" />
+    <result column="ENUM_NAME" jdbcType="LONGVARCHAR" property="enumName" />
+    <result column="ENUM_VALUE" jdbcType="LONGVARCHAR" property="enumValue" />
+    <result column="ENUM_DESC" jdbcType="LONGVARCHAR" property="enumDesc" />
+  </resultMap>
+
+  <select id="findAllEnum" parameterType="sbpEnum" resultMap="BaseResultMap">
+    <![CDATA[
+      select * from sbp_enum
+    ]]>
+    <if test="enumName!=null and enumName!=''">
+      where ENUM_NAME like CONCAT('%',#{enumName},'%')
+    </if>
+     order by ENUM_SEQ
+  </select>
+
+  <select id="findAllEnumByPid" parameterType="String" resultType="java.util.HashMap">
+    <![CDATA[
+      select ENUM_ID as id,ENUM_NAME as text from sbp_enum
+    ]]>
+    <!--当输入参数是基本类型，用if判断需要这样写-->
+    <if test="_parameter!=null and _parameter!=''">
+      where PARENT_ID = #{pid}
+    </if>
+    order by ENUM_SEQ
+  </select>
+
+</mapper>

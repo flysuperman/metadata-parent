@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 引入 application.properties -->
+    <properties resource="application-dev.yml" />
+    <!-- 数据库驱动包位置 -->
+   <!-- <classPathEntry
+            location="D:\程序\mysql-5.6.26-winx64\mysql-connector-java-5.1.17.jar" />-->
+
+    <!-- MyBatis3Simple：不生成 Example相关类及方法 -->
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!-- TKmybatis配置 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="beginningDelimiter" value="`" />
+        <property name="endingDelimiter" value="`" />
+
+        <!-- 指定生成 Mapper 的继承模板 -->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="${generator.mappers}" />
+        </plugin>
+
+        <!--自定义插件目前执行还报错-->
+        <!--<plugin type="com.sailing.bdip.metadata.manage.common.mapper.OverIsMergeablePlugin" />-->
+
+        <!-- 生成 JavaBean 对象重写 toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+
+        <!-- 生成 JavaBean 对象继承 Serializable 类 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <!-- 生成 JavaBean 对象重写 equals 和 hashCode 方法 -->
+        <!-- <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" /> -->
+
+        <!--<commentGenerator type="com.wql.customer.CustomerCommentGenerator">-->
+            <!--<property name="suppressDate" value="false" />-->
+            <!--<property name="suppressAllComments" value="false" />-->
+            <!--<property name="addRemarkComments" value="true" />-->
+            <!--<property name="dateFormat" value="yyyy-MM-dd HH:mm:ss" />-->
+        <!--</commentGenerator>-->
+
+        <!-- jdbc 连接配置 记住在spingboot项目中不添加前缀-->
+        <jdbcConnection driverClass="${driverClassName}"
+                        connectionURL="${url}"
+                        userId="${username}"
+                        password="${password}">
+        </jdbcConnection>
+        <!--java类型处理器 -->
+        <!--<javaTypeResolver>-->
+            <!--<property name="forceBigDecimals" value="false"/>-->
+        <!--</javaTypeResolver>-->
+
+        <!--生成entity位置-->
+        <javaModelGenerator  targetPackage="${generator.javaModel-targetPackage}" targetProject="${generator.targetProject}" />
+
+        <!--生成mapper的位置-->
+        <sqlMapGenerator     targetPackage="${generator.sqlMap-targetPackage}" targetProject="${generator.targetMappProject}">
+            <!--是否允许建立子包（对应MySql的scheme）-->
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--生成mapper xml文件位置-->
+        <!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
+           type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
+           type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
+           type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
+         -->
+        <javaClientGenerator targetPackage="${generator.javaClient-targetPackage}" targetProject="${generator.targetProject}" type="XMLMAPPER" />
+
+        <!-- Mysql 配置 -->
+        <!-- <generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+
+        <!-- Oracle 配置 -->
+        <!-- <generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/> -->
+
+        <!-- tableName：数据库表名，domainObjectName：生成文件名 ，schema：数据源-->
+        <!--<table tableName="sbp_conf_convert">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+
+        <!--</table>-->
+        <!-- %  如果想要生成Example 配置文件及类：将上上述配置中的改为true,或者直接去掉-->
+        <table tableName="%"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false" >
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        </table>
+    </context>
+</generatorConfiguration>

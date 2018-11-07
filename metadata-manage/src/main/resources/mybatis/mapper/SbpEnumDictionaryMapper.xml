@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sailing.bdip.metadata.confmanage.mapper.SbpEnumDictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.confmanage.entity.SbpEnumDictionary">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="OPERATE_PERSON" jdbcType="VARCHAR" property="operatePerson" />
+    <result column="OPERATE_TIME" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="ENUM_ID" jdbcType="VARCHAR" property="enumId" />
+    <result column="DICT_SEQ" jdbcType="BIGINT" property="dictSeq" />
+    <result column="DICT_NAME" jdbcType="LONGVARCHAR" property="dictName" />
+    <result column="DICT_VALUE" jdbcType="LONGVARCHAR" property="dictValue" />
+    <result column="DICT_DESC" jdbcType="LONGVARCHAR" property="dictDesc" />
+  </resultMap>
+
+  <select id="findDictPage" parameterType="sbpEnumDictionary" resultMap="BaseResultMap">
+    <![CDATA[
+      select * from sbp_enum_dictionary
+    ]]>
+     where ENUM_ID=#{enumId}
+    <if test="dictName!=null and dictName!=''">
+     and DICT_NAME like CONCAT('%',#{dictName},'%')
+    </if>
+    order by DICT_SEQ
+  </select>
+
+
+</mapper>
