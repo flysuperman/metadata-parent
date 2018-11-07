@@ -17,6 +17,12 @@ public class SbpStorageInstanceController {
     @Autowired
     private SbpStorageInstanceService sbpStorageInstanceService;
 
+
+    @PostMapping("insertInstance")
+    public int insertInstance(SbpStorageInstance sbpStorageInstance){
+        return sbpStorageInstanceService.insertInstance(sbpStorageInstance);
+    }
+
     /**
      * 分页查询数据源
      * @param sbpStorageInstance
