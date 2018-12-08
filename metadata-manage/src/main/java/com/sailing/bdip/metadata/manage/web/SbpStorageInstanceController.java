@@ -3,6 +3,9 @@ package com.sailing.bdip.metadata.manage.web;
 import com.alibaba.druid.sql.PagerUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sailing.bdip.metadata.common.core.Result;
+import com.sailing.bdip.metadata.common.core.ResultCode;
+import com.sailing.bdip.metadata.common.core.ResultGenerator;
 import com.sailing.bdip.metadata.manage.entity.SbpStorageInstance;
 import com.sailing.bdip.metadata.manage.service.SbpStorageInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +22,14 @@ public class SbpStorageInstanceController {
 
 
     @PostMapping("insertInstance")
-    public int insertInstance(SbpStorageInstance sbpStorageInstance){
+    public boolean insertInstance(SbpStorageInstance sbpStorageInstance) {
         return sbpStorageInstanceService.insertInstance(sbpStorageInstance);
+    }
+
+
+    @PostMapping("updateInstance")
+    public int updateInstance(SbpStorageInstance sbpStorageInstance){
+        return sbpStorageInstanceService.updateInstance(sbpStorageInstance);
     }
 
     /**
@@ -29,9 +38,9 @@ public class SbpStorageInstanceController {
      * @return
      */
     @PostMapping("findInstancePage")
-    public PageInfo<SbpStorageInstance> findInstancePage(int pageNo,int pageSize,SbpStorageInstance sbpStorageInstance){
-        PageHelper.startPage(pageNo,pageSize);
+    public Result findInstancePage(int pageNo, int pageSize, SbpStorageInstance sbpStorageInstance){
+        PageHelper.startPage(pageNo,pageSize,true);
         PageInfo<SbpStorageInstance> pageInfo = sbpStorageInstanceService.findInstancePage(sbpStorageInstance).toPageInfo();
-        return pageInfo;
+        return ResultGenerator.getSuccessResult(pageInfo,ResultCode.SUCCESS);
     }
 }

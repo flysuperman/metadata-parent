@@ -15,8 +15,8 @@ public class Result<T> {
         return code;
     }
 
-    public Result setCode(ResultCode resultCode) {
-        this.code = resultCode.getCode();
+    public Result setCode(int resultCode) {
+        this.code = resultCode;
         return this;
     }
 

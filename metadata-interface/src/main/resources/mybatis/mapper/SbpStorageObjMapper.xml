@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sailing.bdip.metadata.manage.mapper.SbpStorageObjMapper">
+  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.metainterface.entity.SbpStorageObj">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="SO_ID" jdbcType="VARCHAR" property="soId" />
+    <result column="SI_ID" jdbcType="VARCHAR" property="siId" />
+    <result column="SOT_ID" jdbcType="VARCHAR" property="sotId" />
+    <result column="OBJ_NAME" jdbcType="VARCHAR" property="objName" />
+    <result column="OBJ_ALIAS" jdbcType="VARCHAR" property="objAlias" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MOD_PERSON" jdbcType="VARCHAR" property="modPerson" />
+    <result column="MOD_TIME" jdbcType="TIMESTAMP" property="modTime" />
+    <result column="SOURCE_TYPE" jdbcType="CHAR" property="sourceType" />
+    <result column="CREATE_TYPE" jdbcType="CHAR" property="createType" />
+    <result column="SOURCE_LOGO" jdbcType="INTEGER" property="sourceLogo" />
+    <result column="REGION_NUM" jdbcType="INTEGER" property="regionNum" />
+    <result column="COLLECT_TYPE" jdbcType="CHAR" property="collectType" />
+    <result column="FIELD_FLAG" jdbcType="CHAR" property="fieldFlag" />
+    <result column="PID" jdbcType="VARCHAR" property="pid" />
+    <result column="OBJ_DISPLAY_NAME" jdbcType="LONGVARCHAR" property="objDisplayName" />
+    <result column="REMARK" jdbcType="LONGVARCHAR" property="remark" />
+    <result column="URN" jdbcType="LONGVARCHAR" property="urn" />
+  </resultMap>
+</mapper>

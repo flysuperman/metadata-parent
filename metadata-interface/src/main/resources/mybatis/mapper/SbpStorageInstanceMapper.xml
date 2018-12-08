@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sailing.bdip.metadata.manage.mapper.SbpStorageInstanceMapper">
-  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.manage.entity.SbpStorageInstance">
+<mapper namespace="com.sailing.bdip.metadata.metainterface.mapper.SbpStorageInstanceMapper">
+  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.metainterface.entity.SbpStorageInstance">
     <!--
       WARNING - @mbg.generated
     -->
@@ -28,16 +28,10 @@
     <result column="URN" jdbcType="LONGVARCHAR" property="urn" />
     <result column="REMARK" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
-
-  <select id="findInstancePage" parameterType="sbpStorageInstance" resultMap="BaseResultMap">
+  <select id="findInstanceByDsCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     <![CDATA[
       select * from sbp_storage_instance
     ]]>
-    where ST_CODE=#{stCode}
-    <if test="dsName!=null and dsName!=''">
-      and DS_NAME like CONCAT('%',#{dsName},'%')
-    </if>
-    order by MOD_TIME DESC
+    where DS_CODE=#{_parameter}
   </select>
-
 </mapper>

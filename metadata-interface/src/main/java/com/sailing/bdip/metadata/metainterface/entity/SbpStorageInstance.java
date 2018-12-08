@@ -1,8 +1,4 @@
-package com.sailing.bdip.metadata.manage.entity;
-
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
+package com.sailing.bdip.metadata.metainterface.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -113,10 +109,6 @@ public class SbpStorageInstance implements Serializable {
      * 创建时间
      */
     @Column(name = "CREATE_TIME")
-//    输入时间格式 DateTimeFormat目前这个注解不起作用
-//    @DateTimeFormat(pattern = "yyyyMMddHHmmss")
-//    输出时间格式
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**

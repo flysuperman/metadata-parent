@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sailing.bdip.metadata.metainterface.mapper.SbpStorageObjAttrMapper">
+  <resultMap id="BaseResultMap" type="com.sailing.bdip.metadata.metainterface.entity.SbpStorageObjAttr">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="SOA_ID" jdbcType="VARCHAR" property="soaId" />
+    <result column="SO_ID" jdbcType="VARCHAR" property="soId" />
+    <result column="ATTR_TYPE" jdbcType="VARCHAR" property="attrType" />
+    <result column="ATTR_NAME" jdbcType="VARCHAR" property="attrName" />
+    <result column="ATTR_DISPLAY_NAME" jdbcType="VARCHAR" property="attrDisplayName" />
+    <result column="ATTR_ALIAS" jdbcType="VARCHAR" property="attrAlias" />
+    <result column="ATTR_LENGTH" jdbcType="BIGINT" property="attrLength" />
+    <result column="ATTR_PRECISION" jdbcType="BIGINT" property="attrPrecision" />
+    <result column="CAN_NULL" jdbcType="CHAR" property="canNull" />
+    <result column="DDEFAULT" jdbcType="VARCHAR" property="ddefault" />
+    <result column="IS_PK" jdbcType="CHAR" property="isPk" />
+    <result column="IS_FK" jdbcType="CHAR" property="isFk" />
+    <result column="IS_INDEX" jdbcType="CHAR" property="isIndex" />
+    <result column="IS_NEED" jdbcType="CHAR" property="isNeed" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MOD_PERSON" jdbcType="VARCHAR" property="modPerson" />
+    <result column="MOD_TIME" jdbcType="TIMESTAMP" property="modTime" />
+    <result column="ATTR_STATUS" jdbcType="CHAR" property="attrStatus" />
+    <result column="TIME_FORMAT" jdbcType="VARCHAR" property="timeFormat" />
+    <result column="ATTR_SEQ" jdbcType="BIGINT" property="attrSeq" />
+    <result column="CREATE_TYPE" jdbcType="CHAR" property="createType" />
+    <result column="PID" jdbcType="VARCHAR" property="pid" />
+    <result column="COl_TYPE" jdbcType="CHAR" property="colType" />
+    <result column="COL_UNIT" jdbcType="VARCHAR" property="colUnit" />
+    <result column="IS_DIS_COL" jdbcType="CHAR" property="isDisCol" />
+    <result column="URN" jdbcType="LONGVARCHAR" property="urn" />
+    <result column="REMARK" jdbcType="LONGVARCHAR" property="remark" />
+    <result column="REASON" jdbcType="LONGVARCHAR" property="reason" />
+  </resultMap>
+</mapper>

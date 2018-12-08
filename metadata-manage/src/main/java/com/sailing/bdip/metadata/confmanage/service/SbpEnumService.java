@@ -1,6 +1,5 @@
 package com.sailing.bdip.metadata.confmanage.service;
 
-import com.sailing.bdip.metadata.common.Constants;
 import com.sailing.bdip.metadata.common.tool.RandomUtils;
 import com.sailing.bdip.metadata.confmanage.entity.SbpEnum;
 import com.sailing.bdip.metadata.confmanage.mapper.SbpEnumMapper;

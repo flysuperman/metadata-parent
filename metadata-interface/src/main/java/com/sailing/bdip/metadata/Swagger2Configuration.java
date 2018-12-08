@@ -1,10 +1,9 @@
 
 package com.sailing.bdip.metadata;
 
-import com.sailing.bdip.metadata.common.constants.Constants;
+import com.sailing.bdip.metadata.common.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;

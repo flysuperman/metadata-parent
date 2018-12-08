@@ -16,6 +16,7 @@
 
 		<!-- 打印查询语句 -->
 		<setting name="logImpl" value="STDOUT_LOGGING" />
+		<setting name="jdbcTypeForNull" value="NULL" />
 
 	</settings>
 

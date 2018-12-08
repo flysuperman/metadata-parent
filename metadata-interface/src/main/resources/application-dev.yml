@@ -1,9 +1,19 @@
 #端口
 server:
-  port: 8080
+  port: 8081
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/ #2注册的eureka server
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #在eureka server中显示的是ip
 
 #配置mysql
 spring:
+  application:
+    name: metadata-interface #1该参数非常重要服务与服务之间相互调用一般都是根据这个name
   datasource:
     #数据库设置
     url: jdbc:mysql://172.20.46.127:3306/wg_db?useUnicode=true&characterEncoding=utf8&useSSL=false
@@ -41,32 +51,13 @@ mybatis:
    #配置扫描mapper.xml路径
    mapper-locations: classpath:mybatis/mapper/*.xml
   #定义别名,对整个包进行扫描,定义的别名首字母可以大写也可小写比如UserInfo或者userInfo
-   type-aliases-package: com.sailing.bdip.metadata
+   type-aliases-package:  com.sailing.bdip.metadata.metainterface.entity
 pagehelper:
     #分页方言
     helper-dialect: mysql
     reasonable: true
     support-methods-arguments: true
     params: count=countSql
-
-# Generator
-generator.targetProject: src/main/java
-generator.mappers: com.sailing.bdip.metadata.common.mybatis.IBaseMapper
-generator.javaModel-targetPackage: com.sailing.bdip.metadata.autocreate.entity
-generator.javaClient-targetPackage: com.sailing.bdip.metadata.autocreate.mapper
-generator.targetMappProject: src/main/resources
-generator.sqlMap-targetPackage: mybatis.mapper
-
-#日志配置
-#logging.level.com.xiaolyuh: debug
-#logging.level.org.springframework.web: debug
-#logging.level.org.springframework.transaction: debug
-#logging.level.org.mybatis: debug
-
-
-logging:
-  config: classpath:logback-spring.xml
-
 
  #配置全局时间格式处理方式
 jackson:
